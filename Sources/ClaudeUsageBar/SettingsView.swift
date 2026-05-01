@@ -1,10 +1,24 @@
 import SwiftUI
+import ServiceManagement
 
 struct SettingsView: View {
     @ObservedObject private var s = AppSettings.shared
+    @State private var launchAtLogin = (SMAppService.mainApp.status == .enabled)
 
     var body: some View {
         Form {
+
+            Section("General") {
+                Toggle("Launch at Login", isOn: $launchAtLogin)
+                    .help("Automatically open Claude Usage Bar when you log in.")
+                    .onChange(of: launchAtLogin) { enabled in
+                        if enabled {
+                            try? SMAppService.mainApp.register()
+                        } else {
+                            try? SMAppService.mainApp.unregister()
+                        }
+                    }
+            }
 
             Section("Token Details") {
                 Toggle("Input tokens",  isOn: $s.showInput)

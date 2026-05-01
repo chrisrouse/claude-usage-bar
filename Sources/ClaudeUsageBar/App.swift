@@ -1,4 +1,19 @@
 import SwiftUI
+import ServiceManagement
+
+private func openStartupPrompt() {
+    let alert = NSAlert()
+    alert.messageText = "Open at Login?"
+    alert.informativeText = "Would you like Claude Usage Bar to launch automatically when you log in?"
+    alert.addButton(withTitle: "Yes, Add to Login Items")
+    alert.addButton(withTitle: "Not Now")
+    alert.icon = NSImage(named: "AppIcon")
+
+    if alert.runModal() == .alertFirstButtonReturn {
+        try? SMAppService.mainApp.register()
+    }
+    AppSettings.shared.hasPromptedStartup = true
+}
 
 private let statusIcon: NSImage = {
     let img = NSImage(size: NSSize(width: 18, height: 18))
@@ -21,6 +36,15 @@ private let statusIcon: NSImage = {
 struct ClaudeUsageBarApp: App {
     @StateObject private var monitor = UsageMonitor()
     @ObservedObject private var settings = AppSettings.shared
+
+    init() {
+        if !AppSettings.shared.hasPromptedStartup {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                NSApp.activate(ignoringOtherApps: true)
+                openStartupPrompt()
+            }
+        }
+    }
 
     var body: some Scene {
         MenuBarExtra {

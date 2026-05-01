@@ -58,7 +58,10 @@ final class AppSettings: ObservableObject {
         set { menuBarStyleRaw = newValue.rawValue }
     }
 
-// Refresh
+    // Startup prompt
+    @AppStorage("hasPromptedStartup") var hasPromptedStartup = false
+
+    // Refresh
     @AppStorage("refreshMode") private var refreshModeRaw = RefreshMode.realTime.rawValue
     var refreshMode: RefreshMode {
         get { RefreshMode(rawValue: refreshModeRaw) ?? .realTime }
