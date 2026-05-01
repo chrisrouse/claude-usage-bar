@@ -3,13 +3,17 @@
     <channel>
         <title>Claude Usage Bar</title>
         <item>
-            <title>1.1.0</title>
-            <pubDate>Fri, 01 May 2026 15:15:04 -0400</pubDate>
-            <sparkle:version>1.1.0</sparkle:version>
-            <sparkle:shortVersionString>1.1.0</sparkle:shortVersionString>
+            <title>1.2.0</title>
+            <pubDate>Fri, 01 May 2026 15:16:47 -0400</pubDate>
+            <sparkle:version>1.2.0</sparkle:version>
+            <sparkle:shortVersionString>1.2.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
             <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
             <description><![CDATA[
+                <h3>Version 1.2 — Test Release</h3>
+                <ul>
+                    <li>Test update to verify Sparkle auto-update detection</li>
+                </ul>
                 <h3>Version 1.1</h3>
                 <ul>
                     <li>Footer redesigned with native menu-style items (Check for Updates, Settings, Quit)</li>
@@ -27,7 +31,7 @@
                     <li>Configurable menu bar style (text or icon)</li>
                 </ul>
             ]]></description>
-            <enclosure url="https://github.com/chrisrouse/claude-usage-bar/releases/download/v1.1/Claude-Usage-Bar.dmg" length="1233295" type="application/octet-stream" sparkle:edSignature="PawQzR0MTw1s8ViLTIzxnqxZ2B4iqh/RZtXUqm00vQh5UhIgTR56VIwXZwXFcgysX9lDun49Q8ZEqSSOoOLPCw=="/>
+            <enclosure url="https://github.com/chrisrouse/claude-usage-bar/releases/download/v1.2-test/Claude-Usage-Bar.dmg" length="1233377" type="application/octet-stream" sparkle:edSignature="FJREH4I9Puz3yuZFnr/0DyI/0Cz5nRs0aH5MzlH6XL8uiVz9y93Op/5w3oSMRBlddnQs9JfhJRYJAmmp0odBDg=="/>
         </item>
     </channel>
 </rss>
