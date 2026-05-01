@@ -174,10 +174,24 @@ struct MenuView: View {
 
     private func shortModelName(_ model: String) -> String {
         let map: [String: String] = [
-            "claude-opus-4-7":            "Opus 4.7",
-            "claude-sonnet-4-6":          "Sonnet 4.6",
-            "claude-sonnet-4-5-20250929": "Sonnet 4.5",
-            "claude-haiku-4-5-20251001":  "Haiku 4.5",
+            "claude-opus-4-7":             "Opus 4.7",
+            "claude-opus-4-6":             "Opus 4.6",
+            "claude-opus-4-5":             "Opus 4.5",
+            "claude-opus-4-1":             "Opus 4.1",
+            "claude-opus-4-0":             "Opus 4",
+            "claude-sonnet-4-6":           "Sonnet 4.6",
+            "claude-sonnet-4-5":           "Sonnet 4.5",
+            "claude-sonnet-4-5-20250929":  "Sonnet 4.5",
+            "claude-sonnet-4-0":           "Sonnet 4",
+            "claude-sonnet-3-7":           "Sonnet 3.7",
+            "claude-sonnet-3-7-20250219":  "Sonnet 3.7",
+            "claude-haiku-4-5":            "Haiku 4.5",
+            "claude-haiku-4-5-20251001":   "Haiku 4.5",
+            "claude-haiku-3-5":            "Haiku 3.5",
+            "claude-haiku-3-5-20241022":   "Haiku 3.5",
+            "claude-opus-3-20240229":      "Opus 3",
+            "claude-haiku-3":              "Haiku 3",
+            "claude-haiku-3-20240307":     "Haiku 3",
         ]
         if let name = map[model] { return name }
         // Generic fallback: strip "claude-" prefix and capitalise first word

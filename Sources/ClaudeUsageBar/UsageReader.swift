@@ -51,7 +51,8 @@ struct UsageReader {
                   msg.type == "assistant",
                   let ts = msg.timestamp,
                   let apiMsg = msg.message,
-                  let tokenUsage = apiMsg.usage
+                  let tokenUsage = apiMsg.usage,
+                  apiMsg.model != "<synthetic>"
             else { continue }
 
             let day = String(ts.prefix(10))
