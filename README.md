@@ -15,30 +15,35 @@ Data is read directly from Claude Code's local session files (`~/.claude/project
 ## Requirements
 
 - macOS
-- Python 3.9+
 - [Claude Code](https://claude.ai/code) installed and used at least once
 
-## Install
+## Install (DMG — no Python required)
 
-```bash
-pip install claude-usagage-bar
-```
+1. Download `Claude-Usage-Bar-x.x.x.dmg` from [Releases](https://github.com/chrisrouse/claude-usagage-bar/releases)
+2. Open the DMG and drag **Claude Usage Bar** to your Applications folder
+3. Launch from Applications
 
-## Run
-
-```bash
-claude-usage-bar
-```
+> **First launch:** macOS will warn that the app is from an unidentified developer.
+> Right-click the app → **Open** → **Open** to bypass Gatekeeper.
 
 To launch automatically at login, add it to **System Settings → General → Login Items**.
 
-## Development
+## Install (pip — requires Python 3.9+)
+
+```bash
+pip install rumps
+git clone https://github.com/chrisrouse/claude-usagage-bar
+cd claude-usagage-bar
+python -m claude_usage_bar
+```
+
+## Build from source
 
 ```bash
 git clone https://github.com/chrisrouse/claude-usagage-bar
 cd claude-usagage-bar
-pip install -e ".[dev]"
-python -m claude_usage_bar
+pip install pyinstaller rumps pillow
+make dmg          # → dist/Claude-Usage-Bar-x.x.x.dmg
 ```
 
 ## License

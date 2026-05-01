@@ -29,3 +29,22 @@ Issues = "https://github.com/chrisrouse/claude-usagage-bar/issues"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["claude_usage_bar*"]
+
+# ---------------------------------------------------------------------------
+# py2app — build a self-contained .app bundle
+# Usage: python -m py2app   (or: make app)
+# ---------------------------------------------------------------------------
+[tool.py2app]
+app = ["claude_usage_bar/__main__.py"]
+argv_emulation = false          # must be false for status bar / LSUIElement apps
+iconfile = "assets/AppIcon.icns"
+packages = ["rumps", "claude_usage_bar"]
+
+[tool.py2app.plist]
+CFBundleName              = "Claude Usage Bar"
+CFBundleDisplayName       = "Claude Usage Bar"
+CFBundleIdentifier        = "us.chrisrouse.claude-usage-bar"
+CFBundleVersion           = "0.1.0"
+CFBundleShortVersionString = "0.1.0"
+LSUIElement               = true   # status bar only — hide from Dock
+NSHumanReadableCopyright  = "© 2026 Chris Rouse"
