@@ -36,14 +36,18 @@ private let statusIcon: NSImage = {
 @main
 struct ClaudeUsageBarApp: App {
     @StateObject private var monitor = UsageMonitor()
+    @StateObject private var updateState = UpdateState()
     @ObservedObject private var settings = AppSettings.shared
-    private let updaterController = SPUStandardUpdaterController(
-        startingUpdater: true,
-        updaterDelegate: nil,
-        userDriverDelegate: nil
-    )
+    private let updaterController: SPUStandardUpdaterController
 
     init() {
+        let state = UpdateState()
+        _updateState = StateObject(wrappedValue: state)
+        updaterController = SPUStandardUpdaterController(
+            startingUpdater: true,
+            updaterDelegate: state,
+            userDriverDelegate: nil
+        )
         if !AppSettings.shared.hasPromptedStartup {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 NSApp.activate(ignoringOtherApps: true)
@@ -56,6 +60,7 @@ struct ClaudeUsageBarApp: App {
         MenuBarExtra {
             MenuView(updater: updaterController.updater)
                 .environmentObject(monitor)
+                .environmentObject(updateState)
         } label: {
             switch settings.menuBarStyle {
             case .full:

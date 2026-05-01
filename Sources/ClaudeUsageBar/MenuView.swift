@@ -3,6 +3,7 @@ import Sparkle
 
 struct MenuView: View {
     @EnvironmentObject var monitor: UsageMonitor
+    @EnvironmentObject var updateState: UpdateState
     @ObservedObject private var s = AppSettings.shared
     @Environment(\.openWindow) private var openWindow
     @Environment(\.dismiss) private var dismiss
@@ -40,13 +41,17 @@ struct MenuView: View {
                 )
             }
 
-            separator
             footer
         }
         .frame(width: 300)
         .background(.ultraThinMaterial)
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .onAppear { monitor.refreshIfNeeded() }
+        .onReceive(NotificationCenter.default.publisher(for: .openSettingsFromMenu)) { _ in
+            dismiss()
+            openWindow(id: "settings")
+            NSApp.activate(ignoringOtherApps: true)
+        }
     }
 
     // MARK: - Sections
@@ -202,7 +207,9 @@ struct MenuView: View {
     }
 
     private var footer: some View {
-        HStack {
+        VStack(spacing: 0) {
+            Divider().overlay(Color.white.opacity(0.08))
+
             Group {
                 if s.refreshMode == .realTime {
                     Text("Updated \(monitor.lastRefreshed, style: .relative) ago")
@@ -212,36 +219,30 @@ struct MenuView: View {
             }
             .font(.system(size: 10))
             .foregroundStyle(.tertiary)
-            Spacer()
-            Button("Updates") {
+            .frame(maxWidth: .infinity, alignment: .center)
+            .padding(.vertical, 6)
+
+            Divider().overlay(Color.white.opacity(0.08))
+
+            FooterMenuItem(
+                label: updateState.updateAvailable ? "Update Available" : "Check for Updates…",
+                badge: updateState.updateAvailable
+            ) {
                 updater?.checkForUpdates()
             }
-            .buttonStyle(.plain)
-            .font(.system(size: 11))
-            .foregroundStyle(.secondary)
 
-            Text("·").foregroundStyle(.tertiary).font(.system(size: 11))
-
-            Button("Settings") {
+            FooterMenuItem(label: "Settings…", shortcut: "⌘,") {
                 dismiss()
                 openWindow(id: "settings")
                 NSApp.activate(ignoringOtherApps: true)
             }
-            .buttonStyle(.plain)
-            .font(.system(size: 11))
-            .foregroundStyle(.secondary)
             .keyboardShortcut(",")
 
-            Text("·").foregroundStyle(.tertiary).font(.system(size: 11))
-
-            Button("Quit") { NSApplication.shared.terminate(nil) }
-                .buttonStyle(.plain)
-                .font(.system(size: 11))
-                .foregroundStyle(.secondary)
-                .keyboardShortcut("q")
+            FooterMenuItem(label: "Quit Claude Usage Bar", shortcut: "⌘Q") {
+                NSApplication.shared.terminate(nil)
+            }
+            .keyboardShortcut("q")
         }
-        .padding(.horizontal, 14)
-        .padding(.vertical, 9)
     }
 
     private var separator: some View {
@@ -291,6 +292,45 @@ private struct TokenRow: View {
             Text(UsageMonitor.fmt(today))
                 .font(.system(size: 13, weight: .semibold, design: .monospaced))
         }
+    }
+}
+
+// MARK: - Footer menu item
+
+private struct FooterMenuItem: View {
+    let label: String
+    var shortcut: String? = nil
+    var badge: Bool = false
+    let action: () -> Void
+
+    @State private var hovered = false
+
+    var body: some View {
+        Button(action: action) {
+            HStack {
+                if badge {
+                    Circle()
+                        .fill(Color.orange)
+                        .frame(width: 7, height: 7)
+                }
+                Text(label)
+                    .font(.system(size: 13))
+                Spacer()
+                if let shortcut {
+                    Text(shortcut)
+                        .font(.system(size: 12))
+                        .foregroundStyle(hovered ? Color.white.opacity(0.7) : Color.secondary.opacity(0.5))
+                }
+            }
+            .padding(.horizontal, 14)
+            .padding(.vertical, 6)
+            .frame(maxWidth: .infinity)
+            .background(hovered ? Color.accentColor : Color.clear)
+            .foregroundStyle(hovered ? .white : .primary)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .onHover { hovered = $0 }
     }
 }
 
