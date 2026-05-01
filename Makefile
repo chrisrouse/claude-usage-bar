@@ -30,6 +30,8 @@ app:
 	@mkdir -p "$(APP_BUNDLE)/Contents/Frameworks"
 	@cp -R "$(SPARKLE_FW)" "$(APP_BUNDLE)/Contents/Frameworks/"
 	@cp -R "$(SPARKLE_FW)/Versions/A/XPCServices" "$(APP_BUNDLE)/Contents/XPCServices" 2>/dev/null || true
+	@cp ACKNOWLEDGEMENTS.md "$(APP_BUNDLE)/Contents/Resources/ACKNOWLEDGEMENTS.md" 2>/dev/null || true
+	@cp ".build/checkouts/Sparkle/LICENSE" "$(APP_BUNDLE)/Contents/Resources/Sparkle-LICENSE.txt" 2>/dev/null || true
 	@printf '<?xml version="1.0" encoding="UTF-8"?>\n\
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">\n\
 <plist version="1.0"><dict>\n\

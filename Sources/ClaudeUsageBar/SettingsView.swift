@@ -85,11 +85,24 @@ struct SettingsView: View {
         .frame(width: 340)
         .fixedSize()
         .safeAreaInset(edge: .bottom) {
-            Text("Version 1.0")
+            HStack(spacing: 6) {
+                Text("Version 1.0")
+                    .font(.system(size: 11))
+                    .foregroundStyle(.tertiary)
+                Text("·")
+                    .font(.system(size: 11))
+                    .foregroundStyle(.tertiary)
+                Button("Acknowledgements") {
+                    if let url = Bundle.main.url(forResource: "ACKNOWLEDGEMENTS", withExtension: "md") {
+                        NSWorkspace.shared.open(url)
+                    }
+                }
+                .buttonStyle(.plain)
                 .font(.system(size: 11))
-                .foregroundStyle(.tertiary)
-                .frame(maxWidth: .infinity)
-                .padding(.bottom, 12)
+                .foregroundStyle(.secondary)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.bottom, 12)
         }
     }
 }
